@@ -3,10 +3,18 @@
 This repository contains code samples to help you understand how to make
 directives and services in AngularJS and how to test them properly.
 
-To start, run:
+Study the files in the example folder to see how directives and services are
+created and tested.
+
+To start things off, run:
 
     npm install
 
-To run tests:
+To run the tests in the example folder:
 
     grunt
+
+
+## Helpful documentation:
+
+*  ngMock: https://docs.angularjs.org/api/ngMock

@@ -21,8 +21,10 @@ module.exports = (grunt)->
                     files: [
                         'node_modules/angular/angular.js'
                         'node_modules/angular-mocks/angular-mocks.js'
+                        'node_modules/jquery/dist/jquery.js'
                         'example*/**/main.coffee'
                         'example*/**/service.coffee'
+                        'example*/**/directive.coffee'
                         'example*/**/test.coffee'
                     ]
 
