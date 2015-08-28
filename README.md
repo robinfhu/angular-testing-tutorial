@@ -6,3 +6,7 @@ directives and services in AngularJS and how to test them properly.
 To start, run:
 
     npm install
+
+To run tests:
+
+    grunt
