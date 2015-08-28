@@ -17,8 +17,12 @@ module.exports = (grunt)->
 
                     # List out the files we want to test.
                     preprocessors:
-                        'example*/**/test.coffee': ['coffee']
+                        'example*/**/*.coffee': ['coffee']
                     files: [
+                        'node_modules/angular/angular.js'
+                        'node_modules/angular-mocks/angular-mocks.js'
+                        'example*/**/main.coffee'
+                        'example*/**/service.coffee'
                         'example*/**/test.coffee'
                     ]
 
