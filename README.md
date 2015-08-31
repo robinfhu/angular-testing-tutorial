@@ -14,6 +14,8 @@ To run the tests in the example folder:
 
     grunt
 
+* Example 01 - simple directive and a service
+* Example 02 - directive with HTTP call.
 
 ## Helpful documentation:
 
