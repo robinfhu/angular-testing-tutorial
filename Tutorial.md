@@ -196,3 +196,10 @@ and then invoke `$timeout.flush([milliseconds])` when you want to execute the de
 function. This gives you very fine grained control.
 
 You can see a real example of this code [here](https://github.com/robinfhu/angular-testing-tutorial/tree/master/example-01)
+
+### Conclusion
+
+Writing unit tests for AngularJS applications is not difficult, and is well
+worth the investment. We highly encourage you to use test driven development
+principles when building your application.  At Novus, our strong use of unit tests
+has given us a robust, scalable and fun frontend codebase to build on.
