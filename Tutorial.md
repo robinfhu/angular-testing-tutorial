@@ -102,3 +102,62 @@ app.directive 'myWidget', ->
     controller: 'WidgetCtrl'
     template: tmpl
 ```
+
+To render the directive in memory and test that the proper DOM elements are
+present, you need to use the `$compile` service. This service takes in an
+HTML string and a scope object, and returns an AngularJS bound DOM element.
+
+```
+describe 'Directive Tests', ->
+    element = null
+    scope = null
+
+    beforeEach module 'exampleApp'
+
+    beforeEach inject ($compile, $rootScope)->
+        htmlStr = """
+            <my-widget></my-widget>
+        """
+        scope = $rootScope.$new()
+
+        compiledElem = $compile(htmlStr)(scope)
+
+        element = $(compiledElem[0])
+```
+
+In the example above, I've included jQuery in my Karma test runner so that manipulating
+DOM elements is easier.
+
+Once you have a compiled element, you can check it's properties:
+
+```
+it 'widget contains a button that says "Click"', ->
+    button = element.find 'button'
+    button.length.should.equal 1
+    button.text().should.equal 'Click'
+```
+
+### When to use $scope.$digest()
+
+One of AngularJS' more powerful features, is the scope digest cycle. This feature
+enables the programmer to change a data model and have it reflected in the DOM.
+
+The mechanism by which you test this feature is with the `$scope.$digest()` function.
+
+Let's look at an example:
+
+```
+it 'widget title stays capitalized', ->
+    scope.title = 'Clock'
+    scope.$digest()
+    element.find('.title').text().should.equal 'CLOCK'
+```
+
+In this unit test function, the `scope` variable was defined previously when we invoked
+`scope = $rootScope.$new()`. We then passed this scope object into the `$compile` function.
+
+In the unit test, you can make any number of changes to the scope object. When you are ready
+to test the effects of scope on the DOM, you call `scope.$digest()`, which forces
+AngularJS to undergo a full scope digest cycle. If you don't call `scope.$digest()`, you won't
+see any changes happening to the DOM element in your test. It's a very common mistake.
+
