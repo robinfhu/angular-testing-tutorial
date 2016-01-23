@@ -12,6 +12,8 @@ class LabelCtrl
 
     getLabel: -> @label + '!'
 
+    squareNumber: (n)-> n*n
+
 app.controller 'LabelCtrl', [
     '$scope'
     '$http'

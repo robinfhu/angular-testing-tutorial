@@ -65,3 +65,40 @@ describe 'My Application', ->
         result.should.equal 'HELLO WORLD'
 
 ```
+
+The first takeaway here are the two ngMock methods, **module** and **inject**.
+These methods are automatically placed on the `window` object, so you can actually
+omit the `angular.mock` namespacing. I use it in my examples simply as a way to distinguish them.
+
+* **module** - this method loads the AngularJS module into your testing scaffold. Without this, you will be unable to load any of your application code.
+* **inject** - this method returns a new function, but with the listed arguments injected into the function's scope.
+
+You can view the full working code example [here](https://github.com/robinfhu/angular-testing-tutorial/tree/master/example-01)
+
+### Directives
+
+One of the reasons Novus Partners chose AngularJS, is because of the power of
+AngularJS directives.  This construct enables the programmer to define reusable 'components',
+which can then be placed anywhere on your HTML document.
+
+Continuing from our previous example, let's say you have created the following widget:
+
+```
+app = angular.module 'exampleApp'
+
+tmpl = """
+<div class='title'>{{ titleText() }}</div>
+<button id='widget-button'>Click</button>
+"""
+
+app.controller 'WidgetCtrl', ($scope, capitalizeStr)->
+    $scope.title = 'Calendar'
+
+    $scope.titleText = ->
+        capitalizeStr $scope.title
+
+app.directive 'myWidget', ->
+    restrict: 'E'
+    controller: 'WidgetCtrl'
+    template: tmpl
+```

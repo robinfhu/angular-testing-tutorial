@@ -2,6 +2,7 @@ describe 'Example 2 Tests', ->
     describe 'Directive Tests', ->
         element = null
         scope = null
+        controller = null
 
         beforeEach module 'exampleApp'
 
@@ -29,7 +30,14 @@ describe 'Example 2 Tests', ->
             $httpBackend.flush()
 
             element = $(compiledElem[0])
+            controller = compiledElem.controller 'labelWidget'
 
         it 'retrieves name from an endpoint', ->
             element.find('.label').text().should.equal 'Robin!'
 
+        it 'has method to square numbers', ->
+            controller.squareNumber.should.be.a.function
+            controller.squareNumber(6).should.equal 36
+            controller.squareNumber(-6).should.equal 36
+            controller.squareNumber(9).should.equal 81
+            controller.squareNumber(11).should.equal 121
