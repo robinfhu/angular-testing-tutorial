@@ -10,7 +10,7 @@ module.exports = (grunt)->
                     frameworks: ['mocha', 'sinon-chai']
 
                     # Configures how the test output looks like
-                    reporters: [ 'spec', 'junit', 'coverage' ]
+                    reporters: [ 'spec', 'junit' ]
                     junitReporter:
                         outputFile: 'karma.xml'
                     singleRun: true
