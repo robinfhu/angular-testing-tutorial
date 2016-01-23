@@ -161,3 +161,38 @@ to test the effects of scope on the DOM, you call `scope.$digest()`, which force
 AngularJS to undergo a full scope digest cycle. If you don't call `scope.$digest()`, you won't
 see any changes happening to the DOM element in your test. It's a very common mistake.
 
+### Testing $timeout
+AngularJS' service `$timeout` is simply a scope digest wrapper around `window.setTimeout`.
+It will defer execution of a function for a specified period of time.
+
+It turns out that it is possible to write unit tests for these situations.
+
+Suppose your controller has the following scope variables defined:
+
+```
+$scope.title = 'dog'
+$scope.autoChangeTitle = (msg)->
+    $timeout ->
+        $scope.title = msg
+    , 1000
+```
+
+You goal is to write a unit test that calls `autoChangeTitle()`, waits one second,
+and checks if `$scope.title` was set. Here is how you do that:
+
+```
+it 'test ability to change title after one second', inject ($timeout)->
+    scope.autoChangeTitle 'cat'
+
+    # one second hasn't passed yet, so scope.title is same as before
+    scope.title.should.equal 'dog'
+
+    $timeout.flush 1000
+    scope.title.should.equal 'cat'
+```
+
+The key takeaway is that you inject the `$timeout` service into your unit test,
+and then invoke `$timeout.flush([milliseconds])` when you want to execute the deferred
+function. This gives you very fine grained control.
+
+You can see a real example of this code [here](https://github.com/robinfhu/angular-testing-tutorial/tree/master/example-01)

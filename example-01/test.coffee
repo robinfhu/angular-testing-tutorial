@@ -52,3 +52,8 @@ describe 'Example 1 Tests', ->
 
             element.find('.title').text().should.equal 'CLOCK'
 
+        it 'can change title after one second', inject ($timeout)->
+            scope.autoChangeTitle 'cat'
+            scope.title.should.not.equal 'cat'
+            $timeout.flush(1000)
+            scope.title.should.equal 'cat'

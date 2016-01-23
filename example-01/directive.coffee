@@ -12,11 +12,17 @@ tmpl = """
 <button id='widget-button'>Click</button>
 """
 
-app.controller 'WidgetCtrl', ($scope, capitalizeStr)->
+app.controller 'WidgetCtrl', ($scope, capitalizeStr, $timeout)->
     $scope.title = 'Calendar'
 
     $scope.titleText = ->
         capitalizeStr $scope.title
+
+    # Changes the title after one second.
+    $scope.autoChangeTitle = (msg)->
+        $timeout ->
+            $scope.title = msg
+        , 1000
 
 app.directive 'myWidget', ->
     restrict: 'E'
