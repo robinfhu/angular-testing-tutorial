@@ -5,9 +5,9 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "ssh://git@stash.novus.local:2022/ui/tutorial-angular.git"
+    "url": "https://github.com/robinfhu/angular-testing-tutorial"
   },
-  "author": "Robin Hu, Frank Shao",
+  "author": "Robin Hu",
   "license": "ISC",
   "devDependencies": {
     "angular": "~1.2.28",
