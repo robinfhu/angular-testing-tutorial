@@ -261,6 +261,48 @@ The important difference is the addition of the `done` argument in the unit test
 This is a Mocha construct that enables you to write unit tests with async callbacks.
 If `done()` does not get called in the unit test body, the test will fail after a timeout.
 
+### Testing backend API's
+
+Real world AngularJS applications almost certainly require backend resources,
+usually acquired via a RESTful API service. In AngularJS, the `$http` service
+provides the ability to make REST calls (GET, POST, DELETE, etc).
+
+A unit test that invokes code with a `$http` call will generate this error:
+
+```
+Unexpected request: GET /api/resource/foo/bar/
+No more request expected
+```
+
+To avoid this error, the unit test should mock out any expected backend calls.
+The ngMock service `$httpBackend` provides this ability
+(and it is fully documented [here](https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend)).
+
+`$httpBackend` has methods on it that allow you to define expected API urls and
+their associated responses.  Here is an example:
+
+```
+it 'can make a backend call', inject ($httpBackend)->
+    testResponse = {foo: 'bar'}
+    $httpBackend.whenGET('/api/resource/foo/bar/').respond 200, testResponse
+
+    //...Invoke code that makes $http calls...
+
+    $httpBackend.flush()
+
+    //...Test the effects of the $http calls...
+```
+
+The `whenGET` method accepts a URL string or regex as an argument, and returns a
+new object with a `respond` function. The `respond` function accepts an HTTP status code
+and a response data object.  This allows you to write tests to see how your code
+responds if a backend API returns an error.
+
+It is important to also call `$httpBackend.flush()` at some point during the test.
+This behaves similarly to `$timeout.flush()`.  Calling flush essentially
+simulates the backend returning a response, and executes all the callbacks attached
+to any `$http` promises.
+
 ### Conclusion
 
 Writing unit tests for AngularJS applications is not difficult, and is well
