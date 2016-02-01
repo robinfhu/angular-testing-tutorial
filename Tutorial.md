@@ -99,6 +99,7 @@ app.controller 'WidgetCtrl', ($scope, capitalizeStr)->
 
 app.directive 'myWidget', ->
     restrict: 'E'
+    scope: {}
     controller: 'WidgetCtrl'
     template: tmpl
 ```
@@ -135,6 +136,14 @@ it 'widget contains a button that says "Click"', ->
     button = element.find 'button'
     button.length.should.equal 1
     button.text().should.equal 'Click'
+```
+
+To retrieve the scope from the element, use `element.isolateScope()`:
+
+```
+it 'has a title variable the scope', ->
+    scope = element.isolateScope()
+    scope.title.should.equal 'Calendar'
 ```
 
 ### When to use $scope.$digest()
@@ -196,6 +205,61 @@ and then invoke `$timeout.flush([milliseconds])` when you want to execute the de
 function. This gives you very fine grained control.
 
 You can see a real example of this code [here](https://github.com/robinfhu/angular-testing-tutorial/tree/master/example-01)
+
+### Testing Events
+
+Events in AngularJS are essential for allowing different components to communicate
+with each other.  Events can be emitted in two distinct ways:
+
+    * $scope.$broadcast()
+    * $scope.$emit()
+
+The differences are documented [here](https://docs.angularjs.org/api/ng/type/$rootScope.Scope).
+
+Events are listened to by using the `$scope.$on` method.
+
+As an example, suppose we have a directive defined as follows:
+
+```
+app.directive 'myWidget', ->
+    scope: {}
+    type: 'E'
+    template: "<div></div>"
+    controller: ($scope)->
+        $scope.$on 'update:title', (e, title)->
+            $scope.title = title
+
+            $scope.$emit 'title:updated'
+```
+
+Here is how you would write a unit test to check that the widget responds to
+the `update:title` event:
+
+```
+//assume that 'element' was created using the $compile service
+
+it 'responds to update:title event', inject ($rootScope)->
+    scope = element.isolateScope()
+    $rootScope.$broadcast 'update:title', 'Apples'
+
+    scope.title.should.equal 'Apples'
+```
+
+If you want to test that an event was emitted due to some action, you can add
+an event listener in your unit test:
+
+```
+it 'emits title:updated', (done)-> inject ($rootScope)->
+    scope = element.isolateScope()
+    $rootScope.$on 'title:updated', ->
+        done()
+
+    $rootScope.$broadcast 'update:title', 'Test'
+```
+
+The important difference is the addition of the `done` argument in the unit test.
+This is a Mocha construct that enables you to write unit tests with async callbacks.
+If `done()` does not get called in the unit test body, the test will fail after a timeout.
 
 ### Conclusion
 
