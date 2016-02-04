@@ -1,33 +1,48 @@
-# Unit Testing AngularJS
-## Unraveling the mystery
+# Fast, Robust AngularJS Apps with Test-Driven Development
+## Introduction
 
-[AngularJS](https://angularjs.org/) is a popular JavaScript framework, and we
-here at Novus Partners use it to power our incredible analytics application.
+During 2014 and 2015, Novus Partners migrated the entire front-end for its flagship
+Portfolio Intelligence application, Alpha, from a traditional server-side HTML
+web application to a single-page web app model using [AngularJS](https://angularjs.org/).
 
-When Novus decided to build the application, unit testing was deemed to be of
-utmost importance. We think that Test Driven Development principles are the best
-way to build robust, bug free and feature rich software.
+Undertaking such a large project - nothing less than a complete re-write of our core product
+in a modern web technology - carried a huge risk. The re-write was a "pixel-perfect" recreation
+of our existing application. Our core business requirement was that the end-user experience
+a seamless transition on the cutover date, and of course that it be bug free.
 
-Writing unit tests for AngularJS though can be kind of confusing at first.
-This tutorial serves to explain the more nuanced aspects of testing your
+However, we were able to complete this project - and even move to a continuous deployment model
+for our front-end releases - because from the start of this ambitious project we maintained
+a disciplined methodology of TDD (Test Driven Development).
+
+TDD is a well-known best practice in modern software development, but for browser-based JavaScript
+applications, it is still relatively new. Fortunately, AngularJS provides a strong foundation for
+implementing TDD in your development - but writing unit tests for AngularJS can be confusing for the
+uninititated. In this tutorial, we hope to explain the more nuanced aspects of testing your
 [AngularJS](https://angularjs.org/) application.
 
-This tutorial applies to AngularJS 1.2 and above, and is not applicable to AngularJS 2.0.
+_This tutorial applies to AngularJS 1.2 and above, and is not applicable to AngularJS 2.0._
+
+### Prerequisites
+
+This tutorial assumes a working knowledge of the following technologies:
+
+- AngularJS
+- [CoffeeScript](https://coffeescript.org) - which Novus chose for its clean, bug-resistant syntax
+- [Chai.js](http://chaijs.com/) - a TDD/BDD JavaScript library
+
+
+If you need an introduction to either, this tutorial is a great place to start: **URL HERE**
 
 ### Software Requirements
-You will need the following setup on your machine. This tutorial assumes your
-development environment is node.js based.
+To run the sample project, we will be using a build pipeline consisting of:
+- [Grunt](http://gruntjs.com/)
+- `node` and `npm` - for package management and build
+- [Karma](https://karma-runner.github.io/0.13/index.html) - the test runner
+- [Mocha](https://mochajs.org/) - a JavaScript test framework
 
-* node and npm
-* Grunt
-* git
-
-If you are able to clone my [tutorial repository](https://github.com/robinfhu/angular-testing-tutorial),
+For the most part, you just need to have `npm` installed in your development environment. If you
+are able to clone my [tutorial repository](https://github.com/robinfhu/angular-testing-tutorial),
 run `npm install` and run `grunt`, you are good to go.
-
-My tutorial examples use the Karma test runner and the Mocha framework for executing the unit tests.
-
-Also, I will be writing the tests in CoffeeScript due to it's cleaner syntax.
 
 ### Karma - what is it?
 The purpose of [Karma](https://karma-runner.github.io/0.13/index.html) is to link together
@@ -129,7 +144,7 @@ describe 'Directive Tests', ->
 In the example above, I've included jQuery in my Karma test runner so that manipulating
 DOM elements is easier.
 
-Once you have a compiled element, you can check it's properties:
+Once you have a compiled element, you can check its properties:
 
 ```
 it 'widget contains a button that says "Click"', ->
