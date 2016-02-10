@@ -26,12 +26,10 @@ _This tutorial applies to AngularJS 1.2 and above, and is not applicable to Angu
 
 This tutorial assumes a working knowledge of the following technologies:
 
-- AngularJS
+- [AngularJS](https://docs.angularjs.org/guide)
 - [CoffeeScript](https://coffeescript.org) - which Novus chose for its clean, bug-resistant syntax
 - [Chai.js](http://chaijs.com/) - a TDD/BDD JavaScript library
 
-
-If you need an introduction to either, this tutorial is a great place to start: **URL HERE**
 
 ### Software Requirements
 To run the sample project, we will be using a build pipeline consisting of:
